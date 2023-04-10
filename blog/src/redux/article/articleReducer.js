@@ -1,4 +1,3 @@
-import React from 'react'
 import './articleReducer.css';
 
 // Creation du state de base
@@ -9,12 +8,24 @@ const INITIAL_STATE = {
 // Le reducer prend en argument le state = INITIAL_STATE, et action pour les actions
 function articleReducer(state = INITIAL_STATE, action) {
   switch(action.type) {
+    case 'ADDARTICLE': {
+      // Je crée un nouveau tableau depuis mon state, reprenant les articles existants
+      const newArr = [...state.articles];
+      //unshift ajouter mon article rentrer dans le formulaire au début du tableau
+      newArr.unshift(action.payload);
+      return {
+        // La valeur de la propriété articles et maintenant égal au nouveau tableau
+        articles: newArr
+      }
+    }
+
     case 'LOADARTICLES' : {
       return {
         ...state,
         articles: action.payload
       }
     }
+
     default : {
       return state
     }

@@ -2,7 +2,6 @@ import React, {useState} from 'react';
 // Pour envoyer des infos
 import {useDispatch} from 'react-redux';
 import './Form.css'
-import { handleError } from 'vue';
 
 export default function Form() {
   // Création du state + méthode de modification
@@ -15,6 +14,17 @@ export default function Form() {
 
   const handleForm = (e) => {
     e.preventDefault();
+    // J'envoye  à mon reducer l'action ADDARTICLE, les infos de l'objet article (dans la propriété payload)
+    dispatch({
+      type: 'ADDARTICLE',
+      payload: article
+    })
+
+    // Je remet mon state à 0
+    setArticle({
+      title: '',
+      body: ''
+    })
   }
 
   const handleInputs = (e) => {
