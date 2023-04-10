@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useRef} from 'react';
 // Pour envoyer des infos
 import {useDispatch} from 'react-redux';
 import './Form.css'
@@ -14,54 +14,47 @@ export default function Form() {
 
   const handleForm = (e) => {
     e.preventDefault();
+
+    // Je crée un nouvel objet
+    const newArticle = {
+      // Je prends la propriété du state correspondante et lui donne la valeur du bon input
+      // La propriété title, prend en valeur le premier elmt du tableau
+      // Dans notre exemple le title que j'ai reçu de l'API
+      title: inputsRef.current[0].value,
+      // La propriété body, prend en valeur le second elmt du tableau
+      // Dans notre exemple le body que j'ai reçu de l'API
+      body: inputsRef.current[0].value
+    }
     // J'envoye  à mon reducer l'action ADDARTICLE, les infos de l'objet article (dans la propriété payload)
     dispatch({
       type: 'ADDARTICLE',
-      payload: article
+      // Je donne à mon payload le nouvel objet créé plus haut
+      payload: newArticle
     })
 
-    // Je remet mon state à 0
-    setArticle({
-      title: '',
-      body: ''
-    })
-  }
+    // Je remet à 0 mes inputs
+    e.target.reset()
+  };
 
-  const handleInputs = (e) => {
-    if(e.target.classList.contains('inp-title')) {
-      // Je ne change pas le state directement je crée donc un nouvel objet.
-      const newObjState = {
-        // Je copie le state article
-        ...article,
-        // J'attribue à la propriété title du state article, la valeur courante de mon input
-        title: e.target.value
-      }
-      // Je passe en argument de ma méthode qui me permet de changer le state, newObjState
-      // Le state sera modifié
-      setArticle(newObjState)
-    } else if(e.target.classList.contains('inp-body')) {
-      const newObjState = {
-        // Je copie le state article
-        ...article,
-        // J'attribue à la propriété title du state article, la valeur courante de mon input
-        body: e.target.value
-      }
-      // Je passe en argument de ma méthode qui me permet de changer le state, newObjState
-      // Le state sera modifié
-      setArticle(newObjState)
+  // J'initialise un tableau vide pour useRef, car je vais sélectionner plusieurs elmts
+  const inputsRef = useRef([])
+
+  const addRefs = el => {
+    // Si l'élément existe et qu'il n'est pas présent dans la tableau
+    if(el && !inputsRef.current.includes(el)) {
+      // Alors j'ajoute l'input sélectionné à mon tableau
+      inputsRef.current.push(el)
     }
   }
+
   return (
     <>
       <h1 className='title-form'>Écrivez un article</h1>
       <form onSubmit={handleForm} className="container-form">
         <label htmlFor="title">Titre</label>
         <input
-          // onInput trigger l'évènement à chaque fois que j'écris quelque chose dans l'input
-          //onChange trigger uniquement quand je perds le focus
-          onChange={handleInputs}
-          // La valeur entré dans l'input donnera la valeur de la propriété title de mon state
-          value={article.title}
+          // Je lance la fonction addRefs
+          ref={addRefs}
           type="text" 
           id='title' 
           placeholder='Entrez votre nom'
@@ -69,9 +62,8 @@ export default function Form() {
         />
         <label htmlFor="article">Votre article</label>
         <textarea 
-          onChange={handleInputs}
-          // La valeur entré dans le textarea donnera la valeur de la propriété body de mon state
-          value={article.body}
+          // Je lance la fonction addRefs
+          ref={addRefs}
           id="article"
           placeholder='Votre article'
           className='inp-body'

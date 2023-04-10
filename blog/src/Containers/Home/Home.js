@@ -6,7 +6,7 @@ import Card from '../../Components/Card/Card';
 import { useSelector, useDispatch } from 'react-redux';
 // useEffect, permet d'envoyer une fonction lors de la première génération du composant
 // useState permet de créer le state + la méthode pour le modifer
-import { useEffect, useState } from 'react';
+import { useEffect  } from 'react';
 // Fct asynchrone
 import { getArticles } from '../../redux/article/articleReducer';
 // Permet de générer des id uniquement pour chaque élément d'une liste react
