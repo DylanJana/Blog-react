@@ -28,7 +28,7 @@ function Navbar() {
       {(toggleMenu || large > 500) && 
         <ul className='nav__list'>
           <li className='nav__item'>Accueil</li>
-          <li className='nav__item'>Services</li>
+          <li className='nav__item'>Écrire</li>
           <li className='nav__item'>Contact</li>
         </ul>
       }
