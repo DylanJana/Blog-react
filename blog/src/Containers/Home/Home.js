@@ -11,6 +11,7 @@ import { useEffect, useState } from 'react';
 import { getArticles } from '../../redux/article/articleReducer';
 // Permet de générer des id uniquement pour chaque élément d'une liste react
 import {v4 as uuidv4} from 'uuid';
+import { Link } from 'react-router-dom';
 
 export default function Home() {
 
@@ -42,7 +43,21 @@ export default function Home() {
               {/* Pour chaque article, je récupére la propriéte title, et l'affiche */}
               <h2>{item.title}</h2>
               {/* Pour chaque article je crée un lien */}
-              <a href="#">Lire l'article</a>
+              <Link to={{
+                //replace(/\s+/g) repère tous les espaces de manière global
+                // Que je remplace par un tire '-'
+                //.trim() supprimer les espaces avant et après
+                pathname: `articles/${item.title.replace(/\s+/g, '-').trim()}`,
+              }}
+            // En plus du pathname je dois lui passe du state pour afficher du
+              // contenu dans mon article
+              state={{
+                title: item.title,
+                body: item.body
+              }
+              }>
+                Lire l'article
+              </Link>
             </Card>
           )
         })}

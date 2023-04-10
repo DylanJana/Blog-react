@@ -15,7 +15,9 @@ function App() {
       <Routes>
         <Route path='/' element={<Home />} />
         <Route path='/ecrire' element={<AddArticles />} />
-        <Route path='/article' element={<Article />} />
+        {/* Ceci est un chemin dynamique, le path va accepter tout élément qui à un pathname
+        articles/quelquesChose */}
+        <Route path='/articles/:slug' element={<Article />} />
         <Route path='/contact' element={<Contact />} />
       </Routes>
     </>
